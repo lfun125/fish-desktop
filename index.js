@@ -68,7 +68,7 @@ app.on('window-all-closed', function () {
     if (sync) {
         sync.kill(9)
     }
-    if (process.platform !== 'darwin') app.quit()
+    app.quit()
 })
 
 
