@@ -40,3 +40,13 @@
   margin-right: 10px;
   margin-top: 26px;
 }
+#logbox {
+  background-color: black;
+  color: white;
+  height: 300px;
+  overflow: auto;
+}
+#logbox p {
+  display: inline-block;
+  white-space: nowrap;
+}

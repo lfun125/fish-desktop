@@ -95,7 +95,20 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="accent" type="button" (click)="initForm()">重置</button>
-      <button mat-raised-button color="primary" type="submit">开始钓鱼</button>
+      <button mat-raised-button color="primary" type="submit">
+        <span *ngIf="isRun">停止钓鱼</span>
+        <span *ngIf="!isRun">开始钓鱼</span>
+      </button>
     </mat-card-actions>
   </mat-card>
 </form>
+<mat-card>
+  <mat-card-header>
+    <h3>日志</h3>
+  </mat-card-header>
+  <mat-card-content>
+    <div id="logbox">
+      <p *ngFor="let v of logList">{{v}}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

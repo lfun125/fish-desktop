@@ -17,8 +17,32 @@ export class FishWokerComponent {
 
   cycleList: number[] = [];
 
+  logList: string[] = [];
+
+  isRun: boolean = false;
+
   constructor(private fb: FormBuilder) {
     this.initForm();
+    this.receiveLog();
+  }
+
+  receiveLog() {
+    if (!window.ipcRenderer) {
+      return;
+    }
+    const ipcRenderer = window.ipcRenderer;
+    ipcRenderer.receive('fish_log', (data: any) => {
+      const n = this.logList.unshift(data);
+    });
+    ipcRenderer.receive('action', (data: any) => {
+      if (data == 'kill') {
+        this.isRun = false;
+      } else {
+        this.isRun = true;
+      }
+    });
+    setInterval(() => {
+    }, 500);
   }
 
   initForm() {
@@ -56,12 +80,12 @@ export class FishWokerComponent {
   onSubmit(): void {
     const data = this.addressForm?.getRawValue();
     const args = new ArgsData(data);
-    if (window.ipcRenderer) {
-      const ipcRenderer = window.ipcRenderer;
-      console.log(ipcRenderer);
-      ipcRenderer.send('fish', args);
-    }
     console.log(args);
+    if (!window.ipcRenderer) {
+      return;
+    }
+    const ipcRenderer = window.ipcRenderer;
+    ipcRenderer.send('fish', args);
   }
 }
 

@@ -8,6 +8,6 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     },
     receive: (channel, func) => {
         ipcRenderer.on(channel, (event, ...args) => func(...args))
-    }
+    },
 })
 
