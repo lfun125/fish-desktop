@@ -3,6 +3,7 @@ const path = require('path')
 const cmd = require('node-cmd');
 
 let exeFile = '';
+let sync;
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -14,8 +15,6 @@ function createWindow() {
     })
     // win.webContents.openDevTools();
     win.loadFile('dist/index.html')
-
-    let sync;
 
     ipcMain.on('fish', (ev, msg) => {
         const { port1 } = new MessageChannelMain()
@@ -66,6 +65,9 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', function () {
+    if (sync) {
+        sync.kill(9)
+    }
     if (process.platform !== 'darwin') app.quit()
 })
 
