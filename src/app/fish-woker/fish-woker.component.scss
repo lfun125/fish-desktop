@@ -1,0 +1,42 @@
+.full-width {
+  width: 100%;
+}
+
+.shipping-card {
+  min-width: 120px;
+  margin: 20px auto;
+}
+
+.mat-radio-button {
+  display: block;
+  margin: 5px 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
+.split-section {
+  margin-top: 12px;
+}
+.min-input {
+  width: 70px;
+  margin-left: 10px;;
+}
+.del-sycle {
+  margin-top: 16px;
+}
+.s-split {
+  margin-right: 10px;
+  margin-top: 26px;
+}

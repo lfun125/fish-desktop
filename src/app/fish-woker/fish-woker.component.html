@@ -1,0 +1,101 @@
+<form *ngIf="addressForm" [formGroup]="addressForm!" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>钓鱼控制台</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="钓鱼按键" formControlName="fb">
+            <mat-hint>钓鱼按键，如果是坐标用逗号隔开</mat-hint>
+            <mat-error>
+              钓鱼按键必须填写
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="开河蚌箱子宏" formControlName="om">
+            <mat-hint>打开河蚌箱子宏按键，如果是坐标用逗号隔开</mat-hint>
+            <mat-error>
+              开河蚌箱子宏必须填写
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="明亮度" formControlName="l">
+            <mat-hint>明亮度大于等于这个值就收杆</mat-hint>
+            <mat-error>
+              明亮度必须填写
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <section class="split-section">
+            <h4>选择分屏区域</h4>
+            <div>
+              <p>
+                <mat-checkbox formControlName="split1">分屏1</mat-checkbox>
+              </p>
+              <p>
+                <mat-checkbox formControlName="split2">分屏2</mat-checkbox>
+              </p>
+              <p>
+                <mat-checkbox formControlName="split3">分屏3</mat-checkbox>
+              </p>
+              <p>
+                <mat-checkbox formControlName="split4">分屏4</mat-checkbox>
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button mat-button type="button" (click)="addSycle()">
+            + 添加按键循环
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngFor="let v of cycleList; index as i">
+        <mat-form-field class="min-input">
+          <input matInput placeholder="按键" formControlName="{{preKey}}{{v}}_key">
+          <mat-hint>按键</mat-hint>
+          <mat-error>按键必须填写</mat-error>
+        </mat-form-field>
+        <mat-form-field class="min-input">
+          <input matInput placeholder="施法秒数" formControlName="{{preKey}}{{v}}_cast">
+          <mat-hint>施法秒数</mat-hint>
+          <mat-error>施法必须填写</mat-error>
+        </mat-form-field>
+        <mat-form-field class="min-input">
+          <input matInput placeholder="周期秒数" formControlName="{{preKey}}{{v}}_cycle">
+          <mat-hint>周期秒数</mat-hint>
+          <mat-error>周期必须填写</mat-error>
+        </mat-form-field>
+        <section class="s-section">
+          <span class="caption">所属分屏</span>
+          <mat-checkbox class="s-split" formControlName="{{preKey}}{{v}}_split1">1</mat-checkbox>
+          <mat-checkbox class="s-split" formControlName="{{preKey}}{{v}}_split2">2</mat-checkbox>
+          <mat-checkbox class="s-split" formControlName="{{preKey}}{{v}}_split3">3</mat-checkbox>
+          <mat-checkbox class="s-split" formControlName="{{preKey}}{{v}}_split4">4</mat-checkbox>
+        </section>
+        <button mat-mini-fab color="warn" class="del-sycle" (click)="delCyle(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" type="button" (click)="initForm()">重置</button>
+      <button mat-raised-button color="primary" type="submit">开始钓鱼</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
