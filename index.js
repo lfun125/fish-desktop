@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, MessageChannelMain } = require('electron')
+const { app, BrowserWindow, ipcMain, MessageChannelMain, Menu } = require('electron')
 const path = require('path')
 // const cmd = require('node-cmd');
 const child_process = require('child_process')
@@ -8,9 +8,12 @@ let exeFile = '';
 let sync;
 
 function createWindow() {
+    Menu.setApplicationMenu(null)
     const win = new BrowserWindow({
         width: 800,
         height: 800,
+        resizable: false,
+        // frame: false,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         }
