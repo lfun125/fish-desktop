@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "ng": "ng",
-    "start": "electron-forge start",
+    "start": "ng serve",
+    "start:el": "electron-forge start",
     "start:electron": "ng build --base-href . --configuration production && electron .",
     "start:e": "electron .",
     "build": "ng build --base-href .",

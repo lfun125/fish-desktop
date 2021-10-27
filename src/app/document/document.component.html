@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button routerLink="/">
+        <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <span>详细说明</span>
+</mat-toolbar>
+
+<mat-list>
+    <mat-list-item>
+        <h2>使用说明</h2>
+    </mat-list-item>
+    <mat-list-item>
+        <p>1. 环境要求视角范围内颜色越简单越好</p>
+    </mat-list-item>
+    <mat-list-item>
+        <p>2. 关闭姓名版，移动尽头到最前，使其看不见角色只能看见钓鱼</p>
+    </mat-list-item>
+    <mat-list-item>
+        <p>3. 收到按一下钓鱼，鼠标移动到浮标红色或者蓝色处，按<span>F4</span>选择选择颜色</p>
+    </mat-list-item>
+    <mat-list-item>
+        <p>4. 按<span>F3</span>开始钓鱼</p>
+    </mat-list-item>
+</mat-list>
+<mat-card>
+    <img mat-card-image src="assets/img/wow.png">
+</mat-card>
+<h2 style="margin-top: 10px;">常用宏</h2>
+<div class="code" *ngFor="let name of macroList">
+    <button class="copy" mat-icon-button color="warn" title="复制" (click)="copy(name)">
+        <mat-icon>content_copy</mat-icon>
+    </button>
+    <p class="tit">{{name}}</p>
+    <p *ngFor="let item of macroData[name]">{{item}}</p>
+</div>

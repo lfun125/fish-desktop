@@ -76,7 +76,6 @@ app.on('window-all-closed', function () {
     }, 2000);
 })
 
-
 function killByPid(pid) {
     if (/^win/.test(process.platform)) {
         child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])

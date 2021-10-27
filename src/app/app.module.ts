@@ -14,11 +14,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { DocumentComponent } from './document/document.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FishWokerComponent
+    FishWokerComponent,
+    DocumentComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +38,9 @@ import { MatListModule } from '@angular/material/list';
     MatCheckboxModule,
     MatIconModule,
     MatListModule,
+    MatToolbarModule,
+    ClipboardModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
