@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain, MessageChannelMain } = require('electron')
 const path = require('path')
-const cmd = require('node-cmd');
+// const cmd = require('node-cmd');
+const child_process = require('child_process')
+const exec = child_process.exec
 
 let exeFile = '';
 let sync;
@@ -19,7 +21,7 @@ function createWindow() {
     ipcMain.on('fish', (ev, msg) => {
         const { port1 } = new MessageChannelMain()
         if (sync) {
-            sync.kill(9)
+            killByPid(sync.pid)
             sync = null
             win.webContents.postMessage('action', 'kill', [port1])
             return
@@ -36,9 +38,9 @@ function createWindow() {
             }
         }
         console.log('exec', exeCmd)
-        sync = cmd.run(exeCmd)
+        sync = exec(exeCmd)
         win.webContents.postMessage('action', 'run', [port1])
-        sync.stderr.addListener('data', (data) => {
+        sync.stderr.on('data', (data) => {
             for (let v of (data + '').split('\n')) {
                 v = v.trim()
                 if (v == '') {
@@ -65,10 +67,20 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', function () {
+    console.log('close', sync)
     if (sync) {
-        sync.kill(9)
+        killByPid(sync.pid)
     }
-    app.quit()
+    setTimeout(() => {
+        app.quit()
+    }, 2000);
 })
 
 
+function killByPid(pid) {
+    if (/^win/.test(process.platform)) {
+        child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])
+    } else {
+        process.kill(-pid, 'SIGTERM')
+    }
+}
