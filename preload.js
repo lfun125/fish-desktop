@@ -14,5 +14,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 window.addEventListener('beforeunload', (ev) => {
     // Setting any value other than undefined here will prevent the window
     // from closing or reloading
-    ev.returnValue = true;
+    console.log(ev)
+    ev.returnValue = false;
+
+    return true;
 });

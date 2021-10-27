@@ -80,9 +80,9 @@ app.on('window-all-closed', function () {
 })
 
 function killByPid(pid) {
-    if (/^win/.test(process.platform)) {
-        child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])
+    if (process.platform == 'darwin') {
+        process.kill(pid, 'SIGTERM')
     } else {
-        process.kill(-pid, 'SIGTERM')
+        child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])
     }
 }
