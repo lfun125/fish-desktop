@@ -54,6 +54,7 @@ export class FishWokerComponent {
       split2: [false],  // 设置分屏数量
       split3: [false],  // 设置分屏数量
       split4: [false],  // 设置分屏数量
+      wowVersion: ["70", Validators.required],
     });
     this.cycleList = [];
   }
@@ -94,12 +95,14 @@ class ArgsData {
   om: string = '';
   l: string = '';
   split: string = '';
+  wowVersion: string = '60';
   cycle: any[] = [];
 
   constructor(data: any) {
     this.fb = data.fb;
     this.om = data.om;
     this.l = data.l;
+    this.wowVersion = data.wowVersion;
     let splitList = [];
     if (data.split1) {
       splitList.push('1');

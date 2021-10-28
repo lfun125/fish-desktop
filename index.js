@@ -29,7 +29,7 @@ function createWindow() {
             win.webContents.postMessage('action', 'kill', [port1])
             return
         }
-        let exeCmd = `${exeFile} -fb ${msg['fb']} -om ${msg['om']} -l ${msg['l']}`
+        let exeCmd = `${exeFile} -fb ${msg['fb']} -om ${msg['om']} -l ${msg['l']} -wow-ersion ${msg['wowVersion']}`
         if (msg['split']) {
             exeCmd += ` -split ${msg['split']}`
         }
