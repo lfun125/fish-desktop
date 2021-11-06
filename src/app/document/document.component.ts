@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ProcessClose } from '../common';
 
 @Component({
   selector: 'app-document',
@@ -32,6 +33,10 @@ export class DocumentComponent implements OnInit {
   macroList: string[] = [];
 
   constructor(private _snackBar: MatSnackBar, private clipboard: Clipboard) { }
+
+  close() {
+    ProcessClose();
+  }
 
   copy(name: string) {
     const list = this.macroData[name];

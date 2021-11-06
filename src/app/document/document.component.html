@@ -1,10 +1,13 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="fish-toolbar">
     <button mat-icon-button routerLink="/">
         <mat-icon>arrow_back_ios</mat-icon>
     </button>
     <span>详细说明</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+        <mat-icon (click)="close()">close</mat-icon>
+    </button>
 </mat-toolbar>
-
 <mat-list>
     <mat-list-item>
         <h2>使用说明</h2>

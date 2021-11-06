@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProcessClose } from '../common';
 
 declare var window: any;
-
 
 @Component({
   selector: 'app-fish-woker',
@@ -24,6 +24,10 @@ export class FishWokerComponent {
   constructor(private fb: FormBuilder) {
     this.initForm();
     this.receiveLog();
+  }
+
+  close() {
+    ProcessClose();
   }
 
   receiveLog() {

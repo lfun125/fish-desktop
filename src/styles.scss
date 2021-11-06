@@ -2,3 +2,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.fish-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+.spacer {
+    flex: 1 1 auto;
+}

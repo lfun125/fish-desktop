@@ -20,9 +20,11 @@ function createWindow() {
     })
     // win.webContents.openDevTools();
     win.loadFile('dist/index.html')
-
+    ipcMain.on('close', (ev, msg) => {
+        closeApp()
+    })
     ipcMain.on('fish', (ev, msg) => {
-        const { port1 } = new MessageChannelMain()
+        const { port1, port2 } = new MessageChannelMain()
         if (sync) {
             killByPid(sync.pid)
             sync = null
@@ -36,10 +38,11 @@ function createWindow() {
         for (let v of msg['cycle']) {
             exeCmd += ` -cycle ${v['key']},${v['cast']}s,${v['cycle']}s`
             if (v['split'] && v['split'].length > 0) {
-                const s = v['split'].join('|')
+                const s = v['split'].join('_')
                 exeCmd += `,${s}`
             }
         }
+        win.webContents.postMessage('fish_log', exeCmd, [port2])
         console.log('exec', exeCmd)
         sync = exec(exeCmd)
         win.webContents.postMessage('action', 'run', [port1])
@@ -70,14 +73,25 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', function () {
-    console.log('close', sync)
-    if (sync) {
-        killByPid(sync.pid)
-    }
-    setTimeout(() => {
-        app.quit()
-    }, 2000);
+    closeApp()
 })
+
+function closeApp() {
+    if (!sync) {
+        app.quit()
+        return
+    }
+    if (process.platform == 'darwin') {
+        process.kill(sync.pid, 'SIGTERM')
+        app.quit()
+    } else {
+        const kill = child_process.spawn("taskkill", ["/PID", sync.pid, "/T", "/F"])
+        kill.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+            app.quit()
+        });
+    }
+}
 
 function killByPid(pid) {
     if (process.platform == 'darwin') {

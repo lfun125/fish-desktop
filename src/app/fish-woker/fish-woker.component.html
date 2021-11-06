@@ -1,3 +1,10 @@
+<mat-toolbar color="primary" class="fish-toolbar">
+  <span>FISH-DESKTOP</span>
+  <span class="spacer"></span>
+  <button mat-icon-button>
+    <mat-icon (click)="close()">close</mat-icon>
+  </button>
+</mat-toolbar>
 <form *ngIf="addressForm" [formGroup]="addressForm!" novalidate (ngSubmit)="onSubmit()">
   <mat-card class="shipping-card">
     <mat-card-header>

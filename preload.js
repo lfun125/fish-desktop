@@ -1,6 +1,7 @@
 
 const ipcRenderer = require('electron').ipcRenderer
 const contextBridge = require('electron').contextBridge
+const { app } = require('electron')
 contextBridge.exposeInMainWorld('ipcRenderer', {
     send: (channel, data) => {
         console.log(1, channel, data)
@@ -11,3 +12,7 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     },
 })
 
+contextBridge.exposeInMainWorld('mainClose', () => {
+    ipcRenderer.send('close', 1)
+    console.log(111)
+})
