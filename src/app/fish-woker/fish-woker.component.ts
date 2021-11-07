@@ -11,6 +11,8 @@ declare var window: any;
 })
 export class FishWokerComponent {
 
+  fishing = -1;
+
   addressForm?: FormGroup;
 
   preKey = preKey;
@@ -19,7 +21,7 @@ export class FishWokerComponent {
 
   logList: string[] = [];
 
-  isRun: boolean = false;
+  // isRun: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.initForm();
@@ -37,12 +39,16 @@ export class FishWokerComponent {
     const ipcRenderer = window.ipcRenderer;
     ipcRenderer.receive('fish_log', (data: any) => {
       const n = this.logList.unshift(data);
+      if (n > 1000) {
+        this.logList.pop();
+      }
     });
     ipcRenderer.receive('action', (data: any) => {
       if (data == 'kill') {
-        this.isRun = false;
+        this.fishing = -1;
+        this.logList = [];
       } else {
-        this.isRun = true;
+        this.fishing = 1;
       }
     });
     setInterval(() => {
@@ -82,19 +88,23 @@ export class FishWokerComponent {
     });
   }
 
-  onSubmit(): void {
+  doFishing(): void {
     const data = this.addressForm?.getRawValue();
-    const args = new ArgsData(data);
+    const args = new ArgsData(data, -this.fishing);
     console.log(args);
     if (!window.ipcRenderer) {
       return;
     }
     const ipcRenderer = window.ipcRenderer;
-    ipcRenderer.send('fish', args);
+    if (this.fishing !== 0) {
+      ipcRenderer.send('fish', args);
+    }
+    this.fishing = 0;
   }
 }
 
 class ArgsData {
+  fishing = -1;
   fb: string = '';
   om: string = '';
   l: string = '';
@@ -102,10 +112,11 @@ class ArgsData {
   wowVersion: string = '60';
   cycle: any[] = [];
 
-  constructor(data: any) {
+  constructor(data: any, fishing: number) {
     this.fb = data.fb;
     this.om = data.om;
     this.l = data.l;
+    this.fishing = fishing;
     this.wowVersion = data.wowVersion;
     let splitList = [];
     if (data.split1) {

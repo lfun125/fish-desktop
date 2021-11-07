@@ -5,7 +5,7 @@
     <mat-icon (click)="close()">close</mat-icon>
   </button>
 </mat-toolbar>
-<form *ngIf="addressForm" [formGroup]="addressForm!" novalidate (ngSubmit)="onSubmit()">
+<form *ngIf="addressForm" [formGroup]="addressForm!" novalidate (ngSubmit)="doFishing()">
   <mat-card class="shipping-card">
     <mat-card-header>
       <mat-card-title>钓鱼控制台</mat-card-title>
@@ -123,8 +123,9 @@
     <mat-card-actions>
       <button mat-raised-button color="accent" type="button" (click)="initForm()">重置</button>
       <button mat-raised-button color="primary" type="submit">
-        <span *ngIf="isRun">停止钓鱼</span>
-        <span *ngIf="!isRun">开始钓鱼</span>
+        <span *ngIf="fishing === 1">停止钓鱼</span>
+        <span *ngIf="fishing === 0">执行中...</span>
+        <span *ngIf="fishing === -1">开始钓鱼</span>
       </button>
       <a mat-raised-button routerLink="document">
         详细说明

@@ -26,9 +26,13 @@ function createWindow() {
     ipcMain.on('fish', (ev, msg) => {
         const { port1, port2 } = new MessageChannelMain()
         if (sync) {
-            killByPid(sync.pid)
-            sync = null
-            win.webContents.postMessage('action', 'kill', [port1])
+            killByPid(sync.pid, () => {
+                sync = null
+                win.webContents.postMessage('action', 'kill', [port1])
+            })
+            return
+        }
+        if (msg['fishing'] !== 1) {
             return
         }
         let exeCmd = `${exeFile} -fb ${msg['fb']} -om ${msg['om']} -l ${msg['l']} -wow-ersion ${msg['wowVersion']}`
@@ -81,22 +85,22 @@ function closeApp() {
         app.quit()
         return
     }
-    if (process.platform == 'darwin') {
-        process.kill(sync.pid, 'SIGTERM')
+    killByPid(sync.pid, () => {
         app.quit()
-    } else {
-        const kill = child_process.spawn("taskkill", ["/PID", sync.pid, "/T", "/F"])
-        kill.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
-            app.quit()
-        });
-    }
+    })
 }
 
-function killByPid(pid) {
+function killByPid(pid, fn) {
     if (process.platform == 'darwin') {
         process.kill(pid, 'SIGTERM')
+        setTimeout(() => {
+            fn()
+        }, 2000);
     } else {
-        child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])
+        const kill = child_process.spawn("taskkill", ["/PID", pid, "/T", "/F"])
+        kill.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+            fn()
+        });
     }
 }
