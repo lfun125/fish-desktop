@@ -99,6 +99,9 @@ export class FishWokerComponent {
     if (this.fishing !== 0) {
       ipcRenderer.send('fish', args);
     }
+    if (!this.addressForm?.valid) {
+      return;
+    }
     this.fishing = 0;
   }
 }
