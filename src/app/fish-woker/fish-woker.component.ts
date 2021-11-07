@@ -96,12 +96,13 @@ export class FishWokerComponent {
       return;
     }
     const ipcRenderer = window.ipcRenderer;
-    if (this.fishing !== 0) {
-      ipcRenderer.send('fish', args);
-    }
-    if (!this.addressForm?.valid) {
+    if (this.fishing === 0) {
       return;
     }
+    if (this.fishing === -1 && !this.addressForm?.valid) {
+      return;
+    }
+    ipcRenderer.send('fish', args);
     this.fishing = 0;
   }
 }
